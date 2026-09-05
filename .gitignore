@@ -23,3 +23,6 @@ coverage/
 Thumbs.db
 
 SPEC.md
+
+# --- TS build cache ---
+*.tsbuildinfo
