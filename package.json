@@ -10,7 +10,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc -b --noEmit",
-    "scan": "node tools/scan.mjs"
+    "scan": "node tools/scan.mjs",
+    "reconcile": "node tools/reconcile.mjs"
   },
   "dependencies": {
     "dexie": "^4.0.11",
