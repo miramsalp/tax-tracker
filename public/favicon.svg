@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!--
+    Two candles: a modest green one, and a red one that will not be ignored.
+    The whole point of this tool is that losses stay visible, so the icon says
+    the same thing before you have even opened the tab.
+
+    Kept to four shapes on purpose — anything finer turns to mush at 16px.
+  -->
+  <style>
+    .bg { fill: #1c1917; }
+    @media (prefers-color-scheme: light) {
+      .bg { fill: #fafaf9; }
+    }
+  </style>
+
+  <rect class="bg" width="32" height="32" rx="7" />
+
+  <!-- the good day -->
+  <g fill="#10b981">
+    <rect x="8.1" y="16" width="1.8" height="9" rx="0.9" />
+    <rect x="5.5" y="18" width="7" height="6" rx="1.5" />
+  </g>
+
+  <!-- and the rest of the year -->
+  <g fill="#f43f5e">
+    <rect x="21.1" y="4" width="1.8" height="25" rx="0.9" />
+    <rect x="18.5" y="7" width="7" height="19" rx="1.5" />
+  </g>
+</svg>
