@@ -1,4 +1,4 @@
-import type { ParseResult } from '../core/types.ts';
+import type { ParseResult, RejectReason } from '../core/types.ts';
 import { toLines, type Page, type TextItem } from './layout.ts';
 import { parsePages } from './index.ts';
 
@@ -44,6 +44,19 @@ export async function extractPages(
   return pages;
 }
 
+/**
+ * An encrypted document is a prompt, not a failure — the user is asked for the
+ * password and the file goes back in the queue. Anything else is a real error
+ * and is re-thrown so it surfaces rather than being silently skipped.
+ *
+ * pdf.js reports code 1 for "needs a password" and 2 for "that password was
+ * wrong"; the two lead to different prompts, so they stay distinct.
+ */
+export function passwordReject(err: unknown): RejectReason | null {
+  if ((err as { name?: string })?.name !== 'PasswordException') return null;
+  return (err as { code?: number })?.code === 2 ? 'wrong_password' : 'encrypted';
+}
+
 export async function parsePdf(
   load: PdfLoader,
   file: string,
@@ -54,12 +67,8 @@ export async function parsePdf(
   try {
     pages = await extractPages(load, data, password);
   } catch (err) {
-    const name = (err as { name?: string })?.name;
-    if (name === 'PasswordException') {
-      const code = (err as { code?: number })?.code;
-      // pdf.js reports 1 for "need a password" and 2 for "that password was wrong".
-      return { file, reject: code === 2 ? 'wrong_password' : 'encrypted' };
-    }
+    const reject = passwordReject(err);
+    if (reject) return { file, reject };
     throw err;
   }
   return parsePages(file, pages);

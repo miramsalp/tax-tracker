@@ -1,0 +1,26 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-gain: oklch(0.62 0.15 152);
+  --color-loss: oklch(0.58 0.19 25);
+  --font-sans: 'IBM Plex Sans Thai', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Cascadia Mono', ui-monospace, monospace;
+}
+
+/* Fonts are never loaded from a CDN: an outbound font request would leak the
+   fact that this page was opened, and the CSP forbids it anyway. */
+
+html { color-scheme: light dark; }
+
+body {
+  margin: 0;
+  background: var(--color-stone-50);
+  color: var(--color-stone-900);
+}
+
+@media (prefers-color-scheme: dark) {
+  body { background: var(--color-stone-950); color: var(--color-stone-100); }
+}
+
+/* Figures line up column-wise when they are tabular. */
+.tnum { font-variant-numeric: tabular-nums; }
